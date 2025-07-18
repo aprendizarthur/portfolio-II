@@ -1,0 +1,320 @@
+/* Seletores de tag -------------------------------------------------*/
+    body::-webkit-scrollbar{
+        width: 8px;
+    }
+
+    body::-webkit-scrollbar-track{
+        background: #1E1E1F;
+    }
+
+    body::-webkit-scrollbar-thumb{
+        background-color: rgba(80, 80, 80, 0.3);
+        border-radius: 2px;
+    }
+
+    body {
+        background-color: #121212;
+        padding: 10px;
+    }
+
+    input{
+        background-color: #383838 !important;
+        border: solid 1px #383838 !important;
+        color: #C9D1D9 !important;
+        height: 40px !important;
+    }
+
+    textarea{
+        padding: 0px;
+        background-color: #383838 !important;
+        border: solid 1px #383838 !important;
+        color: #C9D1D9 !important;
+    }
+
+    textarea::-webkit-scrollbar{
+        width: 8px;
+    }
+
+    textarea::-webkit-scrollbar-track{
+        background: #1E1E1F;
+    }
+
+    textarea::-webkit-scrollbar-thumb{
+        background-color: rgba(80, 80, 80, 0.3);
+        border-radius: 2px;
+    }
+
+    input:focus{
+        box-shadow: none !important;
+        border: solid 2px #383838 !important;
+        color: #C9D1D9;
+    }
+
+    form details{
+        margin: 20px 0px 20px 0px;
+        background-color: #1b1b1c !important;
+        border: solid 2px #383838 !important;
+        border-radius: 5px;
+    }
+
+    details summary::marker {
+        display: none !important;
+    }
+
+    p:last-of-type{
+        margin: 0;
+    }
+
+    p, h1{
+        color: #dadada !important;
+    }
+
+    hr{
+        border-color: #383838 !important;
+        width: 100%;
+        margin: 0 !important ;
+    }
+
+    summary small{
+        font-size: 0.7rem;
+    }
+
+    small{
+        color: #383838;
+    }
+
+    article section:last-of-type{
+        margin-bottom: 0px;
+    }
+
+    aside a{
+        color: #c9D1D9;
+    }
+
+    aside a:hover{
+        color: #c9D1D9;
+        text-decoration: underline;
+    }
+
+    article img{
+        width: 100%;
+        overflow: hidden;
+        border-radius: 5px;
+        max-height: 30vh;
+    }
+
+    article a:hover{
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    section figure{
+        margin: 20px 0px 0px 0px;
+    }
+
+    figure{
+        margin: 20px 0px 0px 0px;
+    }
+
+    figcaption{
+        font-size: 0.8em;
+    }
+/* Seletores de ID ----------------------------------------------*/
+    #contact a{
+        color: #383838 !important;
+    }
+
+    #contact a:hover{
+        transition: linear 0.2s;
+        transform: scale(1.1);
+        color: #dadada !important;
+    }
+
+    #about-me{
+        background-color: #1b1b1c;
+    }
+
+    #pesquisa article{
+        border-radius: 5px;
+        background-color: #1b1b1c;
+        border: 1px solid #383838;
+        margin: 20px 0px 20px 0px;
+    }
+
+    #pesquisa article:last-of-type{
+        border-radius: 5px;
+        background-color: #1b1b1c;
+        border: 1px solid #383838;
+        margin: 20px 0px 0px 0px;
+    }
+
+    #pesquisa article:hover{
+        border: 2px solid #383838;
+    }
+/* Seletores de classe ----------------------------------------------*/
+    .aside{
+        background-color: #1E1E1F;
+        border-radius: 5px;
+        position: sticky;
+        height: fit-content;
+        top: 10px;
+        overflow-wrap: break-word;
+        padding: 0;
+    }
+
+    .main{
+        background-color: #1E1E1F;
+        border-radius: 5px;
+        height: fit-content;
+        overflow-wrap: break-word;
+        padding: 0;
+    }
+
+    .green{
+        color: green !important;
+    }
+
+    .red{
+        color: #ff7e7e !important;
+    }
+
+    .pulse{
+        animation: pulse 1.5s infinite;
+    }
+
+    .btn-primary{
+        background-color: #C9D1D9 !important;
+        border: solid 1px #c9D1D9 !important;
+        color: #1E1E1F !important;
+        border-radius: 5px;
+    }
+
+    .btn-primary:hover{
+        transition: 0.5s linear;
+        background-color: #FFFFFF !important;
+        border: solid 1px #c9D1D9 !important;
+        color: #1E1E1F !important;
+        border-radius: 5px;
+    }
+
+    .btn-secondary{
+        background-color: rgba(255, 255, 255, 0) !important;
+        border: solid 1px #c9D1D9 !important;
+        color: #c9D1D9 !important;
+        border-radius: 5px;
+    }
+
+    .btn-secondary:hover{
+        transition: 0.5s linear;
+        background-color: #c9D1D9 !important;
+        border: solid 1px #c9D1D9 !important;
+        color: #1E1E1F !important;
+        border-radius: 5px;
+    }
+
+    .btn-danger{
+        background-color: rgba(255, 50, 50, 0) !important;
+        border: solid 1px #ff7e7e !important;
+        color: #ff7e7e !important;
+        border-radius: 5px;
+    }
+
+    .btn-danger:hover{
+        transition: 0.5s linear;
+        background-color: #ff7e7e !important;
+        border: solid 1px #ff7e7e !important;
+        color: #1E1E1F !important;
+        border-radius: 5px;
+    }
+
+    .danger-input{
+        border: solid 1px #ff7e7e !important;
+        color: #ff7e7e !important;
+        background-color: #1b1b1c !important;
+    }
+
+    .danger-label{
+        color: #ff7e7e;
+    }
+
+    .w-49{
+        width: 49% !important;
+    }
+/* Fontes ------------------------------------------------------------*/
+    .ubuntu-light {
+        font-family: "Ubuntu", sans-serif;
+        font-weight: 300;
+        font-style: normal;
+    }
+
+    .ubuntu-regular {
+        font-family: "Ubuntu", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    .ubuntu-bold {
+        font-family: "Ubuntu", sans-serif;
+        font-weight: 575;
+        font-style: normal;
+    }
+
+    .poppins-light {
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        font-style: normal;
+    }
+
+    .poppins-regular {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    .poppins-bold {
+        font-family: "Poppins", sans-serif;
+        font-weight: 575;
+        font-style: normal;
+    }
+
+    .poppins-light-italic {
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+        font-style: italic;
+    }
+/* Proporção tipografia --------------------------------------------------*/
+    h1{font-size: 1.3rem}
+    h2{font-size: 1.2rem}
+    h3{font-size: 1.1rem}
+    p{font-size: 1rem}
+    small{font-size: 0.9rem}
+/* Keyframe animação ----------------------------------------------------------*/
+    @keyframes pulse{
+        from{
+            transform: scale(0);
+        }
+        to{
+            transform: scale(1);
+        }
+    }
+
+    @keyframes fundoAnimado{
+        0%{
+            background-position: 0% 50%;
+        }
+
+        50%{
+            background-position: 100% 50%;
+        }
+
+        100%{
+            background-position: 0% 50%;
+        }
+    }
+/* Media Queries ----------------------------------------------------------*/
+    @media (max-width: 767px) {
+        .aside{
+            position: static;
+            margin-bottom: 10px;
+        }
+    }

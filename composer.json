@@ -1,0 +1,20 @@
+{
+    "name": "arthu/portfolio-ii",
+    "autoload": {
+        "psr-4": {
+            "Core\\" : "src/Core",
+            "Models\\": "src/Models",
+            "Views\\" : "src/Views",
+            "Controllers\\": "src/Controllers",
+            "Database\\" : "src/Database",
+            "Traits\\": "src/Traits"
+        }
+    },
+    "authors": [
+        {
+            "name": "Arthur",
+            "email": "aprendizadoarthur@gmail.com"
+        }
+    ],
+    "require": {}
+}
