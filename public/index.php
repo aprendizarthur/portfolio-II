@@ -2,9 +2,9 @@
 require('../vendor/autoload.php');
 
 use Core\SessionManager;
-use Database\{Database, ActivityDAO};
-use Models\ActivityModel;
-use Controllers\ActivityController;
+use Database\{Database, UserDAO, ActivityDAO, ActivityViewDAO};
+use Models\{UserModel, ActivityModel, ActivityViewModel};
+use Controllers\{UserController, ActivityController, ActivityViewController};
 
 $SessionManager = new SessionManager;
 $Database = new Database;
@@ -13,6 +13,13 @@ $ActivityDAO = new ActivityDAO($Database);
 $ActivityModel = new ActivityModel;
 $ActivityController = new ActivityController;
 
+$UserDAO = new UserDAO($Database);
+$UserModel = new UserModel;
+$UserController = new UserController;
+
+$ActivityViewDAO = new ActivityViewDAO($Database);
+$ActivityViewModel = new ActivityViewModel;
+$ActivityViewController = new ActivityViewController;
 ?>
 
 <!DOCTYPE html>
@@ -48,31 +55,13 @@ $ActivityController = new ActivityController;
                         <h1 class="d-inline ubuntu-regular">Sobre mim</h1>
                 </header>
                 <hr>
-                <section class="p-3" id="about-me">
-                    <div class="text-center">
-                        <img id="logo" src="assets/images/logo.jpg">
-                        <h2 class="ubuntu-bold">Arthur Vieira</h2>
-                    </div>
-                    <p class="poppins-regular">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi justo ante, auctor nec turpis eget, rutrum scelerisque dolor.
-                    </p>
-                    <p class="poppins-regular">
-                        Estudando:
-                    </p>
-                    <ul class="popping-regular m-0 p-0">
-                        <li>- Arquitetura MVC</li>
-                        <li>- CodeIgniter</li>
-                    </ul>
-                </section>
-                <hr>
-                <section class="p-3 d-flex justify-content-around" id="contact">
-                        <a href=""><i class="fa-solid fa-envelope fa-lg"></i></a>
-                        <a href=""><i class="fa-brands fa-whatsapp fa-xl"></i></a>
-                        <a href=""><i class="fa-brands fa-instagram fa-xl"></i></a>
-                        <a href=""><i class="fa-brands fa-x-twitter fa-lg"></i></a>
-                        <a href=""><i class="fa-brands fa-github fa-xl"></i></a>
-                </section>
-                <hr>
+                    <?php
+                        try{
+                            $UserController->ReadAboutMe($UserDAO);
+                        } catch (Exception $e) {
+                            echo "<p class=\"poppins-regular red\">".$e->getMessage()."</p>";
+                        }
+                    ?>
                 <section class="p-3 text-center" id="status">
                     <span class="ubuntu-regular m-0 green"><i class="pulse fa-solid fa-circle fa-xs mr-2"></i>Disponível para trabalho</span>
                 </section>
@@ -95,13 +84,13 @@ $ActivityController = new ActivityController;
                     </form>
                     <?php
                         try{
-                            $ActivityController->Search($ActivityDAO, $SessionManager);
+                            $ActivityController->Search($ActivityViewController, $ActivityViewDAO, $ActivityDAO, $SessionManager);
                         } catch (Exception $e) {
                             echo "<p class=\"poppins-regular red\">".$e->getMessage()."</p>";
                         }
 
                         try{
-                            $ActivityController->Read($ActivityDAO, $SessionManager);
+                            $ActivityController->Read($ActivityViewController, $ActivityViewDAO, $ActivityDAO, $SessionManager);
                         } catch (Exception $e) {
                             echo "<p class=\"poppins-regular red\">".$e->getMessage()."</p>";
                         }

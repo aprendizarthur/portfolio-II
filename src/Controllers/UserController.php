@@ -115,6 +115,34 @@ class UserController
         ';
     }
 
+    public function ReadAboutMe(UserDAO $userDAO) : void{
+        $this->userDAO = $userDAO;
+        if(!$UserData = $this->userDAO->getAllUserDataById(1)){
+            throw new Exception("Erro ao carregar sobre mim");
+        }
+
+        echo "
+        <section class=\"p-3\" id=\"about-me\">
+            <div class=\"text-center\">
+                <img id=\"logo\" src=\"assets/images/logo.jpg\">
+                <h2 class=\"ubuntu-bold\">Arthur Vieira</h2>
+            </div>
+            <p class=\"poppins-regular\">$UserData[about]</p>
+            <p class=\"poppins-regular\">$UserData[studying]</p>
+        </section>
+           <hr>
+        <section class=\"p-3 d-flex justify-content-around\" id=\"contact\">
+            <a href=\"mailto:".$UserData['email']."\"><i class=\"fa-solid fa-envelope fa-lg\"></i></a>
+            <a href=\"https://wa.me/".$UserData['numberWhatsapp']."\"><i class=\"fa-brands fa-whatsapp fa-xl\"></i></a>
+            <a href=\"https://www.instagram.com/".$UserData['userInstagram']."\"><i class=\"fa-brands fa-instagram fa-xl\"></i></a>
+            <a href=\"https://twitter.com/".$UserData['userX']."\"><i class=\"fa-brands fa-x-twitter fa-lg\"></i></a>
+            <a href=\"https://github.com/".$UserData['userGithub']."\"><i class=\"fa-brands fa-github fa-xl\"></i></a>
+        </section>
+           <hr>
+        ";
+
+    }
+
     public function Update(UserModel $UserModel, UserDAO $UserDAO, array $DataUpdateFromPost) : void{
         $this->userModel = $UserModel;
         $this->userDAO = $UserDAO;

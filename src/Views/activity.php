@@ -2,9 +2,9 @@
 require('../../vendor/autoload.php');
 
 use Core\SessionManager;
-use Database\{Database, ActivityDAO};
-use Models\ActivityModel;
-use Controllers\ActivityController;
+use Database\{Database, ActivityDAO, ActivityViewDAO};
+use Models\{ActivityModel, ActivityViewModel};
+use Controllers\{ActivityController, ActivityViewController};
 
 $SessionManager = new SessionManager;
 $Database = new Database;
@@ -12,6 +12,12 @@ $Database = new Database;
 $ActivityDAO = new ActivityDAO($Database);
 $ActivityModel = new ActivityModel;
 $ActivityController = new ActivityController;
+
+$ActivityViewDAO = new ActivityViewDAO($Database);
+$ActivityViewModel = new ActivityViewModel;
+$ActivityViewController = new ActivityViewController;
+
+$ActivityViewController->Create($ActivityViewModel, $ActivityViewDAO);
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +49,7 @@ $ActivityController = new ActivityController;
     <div class="row d-flex justify-content-around">
         <?php
             try{
-                $ActivityController->ReadActivityContent($ActivityDAO, $ActivityModel, $SessionManager);
+                $ActivityController->ReadActivityContent($ActivityViewController, $ActivityViewDAO, $ActivityDAO, $ActivityModel, $SessionManager);
             } catch (Exception $e) {
                 echo "<p class=\"col-11 poppins-regular pt-3 red\">".$e->getMessage()."</p>";
             }

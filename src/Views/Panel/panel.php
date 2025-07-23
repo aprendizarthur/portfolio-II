@@ -2,9 +2,9 @@
 require('../../../vendor/autoload.php');
 
 use Core\SessionManager;
-use Database\{Database, ActivityDAO};
-use Controllers\ActivityController;
-use Models\ActivityModel;
+use Database\{Database, ActivityDAO, ActivityViewDAO};
+use Controllers\{ActivityController, ActivityViewController};
+use Models\{ActivityModel, ActivityViewModel};
 
 $SessionManager = new SessionManager;
 $SessionManager->redirectNotLoggedIn();
@@ -13,6 +13,11 @@ $Database = new Database;
 $ActivityDAO = new ActivityDAO($Database);
 $ActivityModel = new ActivityModel;
 $ActivityController = new ActivityController;
+
+$ActivityViewDAO = new ActivityViewDAO($Database);
+$ActivityViewModel = new ActivityViewModel;
+$ActivityViewController = new ActivityViewController;
+
 ?>
 
 <!DOCTYPE html>
@@ -48,12 +53,6 @@ $ActivityController = new ActivityController;
                 <h1 class="d-inline ubuntu-regular">Painel Administrador</h1>
             </header>
             <hr>
-            <section class="p-3" id="panel-info">
-                <p class="poppins-regular">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi justo ante, auctor nec turpis eget, rutrum scelerisque dolor.
-                </p>
-            </section>
-            <hr>
             <section class="p-3" id="panel-nav">
                 <nav>
                     <a class="d-inline-block btn btn-primary poppins-bold w-100" href="updateUser.php">Meus dados</a>
@@ -73,6 +72,7 @@ $ActivityController = new ActivityController;
             <section class="p-3" id="pesquisa">
                 <form method="GET" class="ubuntu-regular">
                     <div class="form-group">
+                        <label for="search" class="d-none d-md-block"><small><kbd>Alt</kbd> + <kbd>\</kbd></small></label>
                         <input class="form-control w-100" type="search" name="search" placeholder="Pesquisa"  accesskey="\">
                     </div>
                 </form>
@@ -80,13 +80,13 @@ $ActivityController = new ActivityController;
                 <a class="d-inline-block mb-3 btn btn-primary poppins-bold w-100" href="createActivity.php">Nova Atividade</a>
                 <?php
                     try{
-                        $ActivityController->Search($ActivityDAO, $SessionManager);
+                        $ActivityController->Search($ActivityViewController, $ActivityViewDAO, $ActivityDAO, $SessionManager);
                     } catch (Exception $e) {
                         echo "<p class=\"poppins-regular red\">".$e->getMessage()."</p>";
                     }
 
                     try{
-                        $ActivityController->Read($ActivityDAO, $SessionManager);
+                        $ActivityController->Read($ActivityViewController, $ActivityViewDAO, $ActivityDAO, $SessionManager);
                     } catch (Exception $e) {
                         echo "<p class=\"poppins-regular red\">".$e->getMessage()."</p>";
                     }

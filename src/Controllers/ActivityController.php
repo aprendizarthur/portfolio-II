@@ -4,12 +4,15 @@ namespace Controllers;
 
 use Core\SessionManager;
 use Database\ActivityDAO;
+use Database\ActivityViewDAO;
 use Models\ActivityModel;
 
 class ActivityController
 {
     private ActivityModel $activityModel;
     private ActivityDAO $activityDAO;
+    private ActivityViewController $activityViewController;
+    private ActivityViewDAO $activityViewDAO;
     private SessionManager $sessionManager;
 
     public function Create(ActivityModel $activityModel, ActivityDAO $activityDAO, SessionManager $sessionManager, array $DataCreateFromPost) : void{
@@ -52,9 +55,11 @@ class ActivityController
         }
     }
 
-    public function ReadActivityContent(ActivityDAO $activityDAO, ActivityModel $activityModel, SessionManager $sessionManager) : void{
+    public function ReadActivityContent(ActivityViewController $activityViewController, ActivityViewDAO $activityViewDAO, ActivityDAO $activityDAO, ActivityModel $activityModel, SessionManager $sessionManager) : void{
         $this->activityDAO = $activityDAO;
         $this->activityModel = $activityModel;
+        $this->activityViewController = $activityViewController;
+        $this->activityViewDAO = $activityViewDAO;
         $this->sessionManager = $sessionManager;
 
         if(!empty($_GET['id'])){
@@ -75,6 +80,7 @@ class ActivityController
 
             $activityCover = !empty($activityData["cover"]) ? "<figure> <img src=\"$activityData[cover]\"> </figure>" : "";
 
+            $activityData["views"] = $this->activityViewController->getActivityViews($activityData['id'], $activityViewDAO);
 
             echo "
                 <aside class=\"aside col-11 col-md-4 col-lg-3 text-light\">
@@ -108,7 +114,7 @@ class ActivityController
                             <header class=\"p-3\">
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-calendar fa-sm mr-1\"></i>$activityData[date]</small>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-clock fa-sm mr-1\"></i>$activityData[readingTime] min</small>
-                                <small class=\"mr-2\"><i class=\"fa-solid fa-eye fa-sm mr-1\"></i> 20</small>
+                                <small class=\"mr-2\"><i class=\"fa-solid fa-eye fa-sm mr-1\"></i>$activityData[views]</small>
                                 <h1 class=\"ubuntu-bold\">$activityData[title]</h1>
                                 <p class=\"poppins-regular\">
                                     $activityData[description]
@@ -128,7 +134,7 @@ class ActivityController
                         <div class='px-3 pb-3'>
                     ";
 
-                    $this->Recommendation($activityDAO, $activityModel);
+                    $this->Recommendation($activityViewController, $activityViewDAO, $activityDAO, $activityModel);
             echo "</div></section></main>";
 
         } else {
@@ -137,8 +143,10 @@ class ActivityController
         }
     }
 
-    public function Read(ActivityDAO $activityDAO, SessionManager $sessionManager){
+    public function Read(ActivityViewController $activityViewController, ActivityViewDAO $activityViewDAO, ActivityDAO $activityDAO, SessionManager $sessionManager){
+        $this->activityViewController = $activityViewController;
         $this->activityDAO = $activityDAO;
+        $this->activityViewDAO = $activityViewDAO;
         $this->sessionManager = $sessionManager;
 
         if(!isset($_GET['search']) || $_GET['search'] === "all"){
@@ -154,6 +162,7 @@ class ActivityController
             foreach($activitiesData as $activityData){
                 $activityRelativeLink = $this->sessionManager->createRelativeLinkForActivity($activityData['id']);
                 $activityCover = empty($activityData['cover']) ? "" : "<figure class=\"pt-3 m-0\"><img src=\"$activityData[cover]\"></figure>";
+                $activityData["views"] = $this->activityViewController->getActivityViews($activityData['id'], $this->activityViewDAO);
 
                 echo "
                     <article class=\"p-3\">
@@ -161,7 +170,7 @@ class ActivityController
                             <header>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-calendar fa-sm mr-1\"></i>$activityData[date]</small>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-clock fa-sm mr-1\"></i>$activityData[readingTime] min</small>
-                                <small class=\"mr-2\"><i class=\"fa-solid fa-eye fa-sm mr-1\"></i> 20</small>
+                                <small class=\"mr-2\"><i class=\"fa-solid fa-eye fa-sm mr-1\"></i>$activityData[views]</small>
                                 <h1 class=\"ubuntu-bold\">$activityData[title]</h1>
                                 <p class=\"poppins-regular\">$activityData[description]</p>
                             </header>
@@ -300,8 +309,10 @@ class ActivityController
         }
     }
 
-    public function Search(ActivityDAO $activityDAO, SessionManager $sessionManager){
+    public function Search(ActivityViewController $activityViewController, ActivityViewDAO $activityViewDAO, ActivityDAO $activityDAO, SessionManager $sessionManager){
         $this->activityDAO = $activityDAO;
+        $this->activityViewController = $activityViewController;
+        $this->activityViewDAO = $activityViewDAO;
         $this->sessionManager = $sessionManager;
 
         if(isset($_GET['search'])){
@@ -312,7 +323,7 @@ class ActivityController
             $search = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING);
 
             if($search == "all"){
-                $this->Read($activityDAO, $sessionManager);
+                $this->Read($activityViewController, $activityViewDAO, $activityDAO, $sessionManager);
                 exit();
             }
 
@@ -333,6 +344,7 @@ class ActivityController
             foreach($searchResult as $activityData){
                 $activityRelativeLink = $this->sessionManager->createRelativeLinkForActivity($activityData['id']);
                 $activityCover = empty($activityData['cover']) ? "" : "<figure class=\"pt-3 m-0\"><img src=\"$activityData[cover]\"></figure>";
+                $activityData['views'] = $this->activityViewController->getActivityViews($activityData['id'], $activityViewDAO);
 
                 echo "
                     <article class=\"p-3\">
@@ -340,7 +352,7 @@ class ActivityController
                             <header>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-calendar fa-sm mr-1\"></i>$activityData[date]</small>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-clock fa-sm mr-1\"></i>$activityData[readingTime] min</small>
-                                <small class=\"mr-2\"><i class=\"fa-solid fa-eye fa-sm mr-1\"></i> 20</small>
+                                <small class=\"mr-2\"><i class=\"fa-solid fa-eye fa-sm mr-1\"></i>$activityData[views]</small>
                                 <h1 class=\"ubuntu-bold\">$activityData[title]</h1>
                                 <p class=\"poppins-regular\">$activityData[description]</p>
                             </header>
@@ -353,8 +365,10 @@ class ActivityController
         }
     }
 
-    public function Recommendation(ActivityDAO $activityDAO, ActivityModel $activityModel) : void {
+    public function Recommendation(ActivityViewController $activityViewController, ActivityViewDAO $activityViewDAO, ActivityDAO $activityDAO, ActivityModel $activityModel) : void {
         $this->activityDAO = $activityDAO;
+        $this->activityViewController = $activityViewController;
+        $this->activityViewDAO = $activityViewDAO;
         $this->activityModel = $activityModel;
 
         if(!$allActivitiesIds =$this->activityDAO->getAllActivitiesID()){
@@ -372,6 +386,7 @@ class ActivityController
                 throw new \Exception("Erro ao carregar recomendação.");
             }
                 $activityCover = empty($activityData['cover']) ? "" : "<figure class=\"pt-3 m-0\"><img src=\"$activityData[cover]\"></figure>";
+                $activityData['views'] = $this->activityViewController->getActivityViews($activityID, $activityViewDAO);
 
             echo "
                     <article class=\"p-3\">
@@ -379,7 +394,7 @@ class ActivityController
                             <header>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-calendar fa-sm mr-1\"></i>$activityData[date]</small>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-clock fa-sm mr-1\"></i>$activityData[readingTime] min</small>
-                                <small class=\"mr-2\"><i class=\"fa-solid fa-eye fa-sm mr-1\"></i> 20</small>
+                                <small class=\"mr-2\"><i class=\"fa-solid fa-eye fa-sm mr-1\"></i> $activityData[views]</small>
                                 <h1 class=\"ubuntu-bold\">$activityData[title]</h1>
                                 <p class=\"poppins-regular\">$activityData[description]</p>
                             </header>
