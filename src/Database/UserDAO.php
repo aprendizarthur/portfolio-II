@@ -119,7 +119,7 @@ class UserDAO
             $statement->bindValue(':numberWhatsapp', $data['whatsapp']);
             $statement->bindValue(':userInstagram', $data['userInstagram']);
             $statement->bindValue(':userX', $data['userX']);
-            $statement->bindValue(':userGithub', $data['usenumberGithub']);
+            $statement->bindValue(':userGithub', $data['userGithub']);
             $statement->execute();
             return true;
         } catch (PDOException $e) {

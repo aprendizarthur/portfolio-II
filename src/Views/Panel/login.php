@@ -8,8 +8,7 @@ use Controllers\UserController;
 
 $SessionManager = new SessionManager;
 $SessionManager->redirectLoggedIn();
-
-$Database = new Database('portfolio-II', 'root', '');
+$Database = new Database;
 
 $UserDAO = new UserDAO($Database);
 $UserModel = new UserModel;

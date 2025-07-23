@@ -28,19 +28,17 @@ class UserController
 
             $UserID = $this->userDAO->getUserIdByUsername($DataLoginFromPost['username']);
 
+            if($UserID == null){
+                echo 'Não foi possível carregar seus dados. Por favor, tente novamente.';
+                return;
+            }
+
             $_SESSION['user-username'] = $DataLoginFromPost['username'];
             $_SESSION['user-id'] = $UserID;
 
             header('Location: panel.php');
             exit();
         }
-    }
-
-    public function Logout() : void {
-        session_unset();
-        session_destroy();
-        header('Location: ../../../public/index.php');
-        exit();
     }
 
     public function Create() : void{
@@ -62,12 +60,12 @@ class UserController
 
                     <div class="form-group">
                         <label for="about">Sobre mim</label>
-                        <textarea class="form-control" name="about" id="about" rows="4">'.$UserData['about'].'</textarea>
+                        <textarea class="form-control" spellcheck="true" name="about" id="about" rows="4">'.$UserData['about'].'</textarea>
                     </div>
                     
                     <div class="form-group">
                         <label for="studying">Estudando</label>
-                        <textarea class="form-control" name="studying" id="studying" rows="2">'.$UserData['studying'].'</textarea>
+                        <textarea class="form-control" spellcheck="true" name="studying" id="studying" rows="2">'.$UserData['studying'].'</textarea>
                     </div>
 
                     <div class="form-group">
@@ -150,6 +148,8 @@ class UserController
             if(!$this->userDAO->updateUserData($DataUpdateFromPost, (int)$_SESSION['user-id'])){
                 throw new Exception('Erro ao atualizar dados, tente novamente.');
             }
+
+            $_SESSION['update-success'] = true;
 
             header('Location: updateUser.php');
             exit();

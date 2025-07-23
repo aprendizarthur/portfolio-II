@@ -8,15 +8,9 @@ use PDOException;
 class Database
 {
     public static $pdo;
-    private string $dsn;
-    private string $username;
-    private string $password;
-
-    public function __construct(string $dbname, string $username, string $password){
-        $this->dsn = "mysql:host=localhost;dbname=".$dbname;
-        $this->username = $username;
-        $this->password = $password;
-    }
+    private string $dsn = "mysql:host=localhost;dbname=portfolio-II";
+    private string $username = 'root';
+    private string $password = '';
 
     public function getPDO(): PDO {
         if(self::$pdo == null) {

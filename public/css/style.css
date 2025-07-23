@@ -1,4 +1,8 @@
 /* Seletores de tag -------------------------------------------------*/
+    html{
+        scroll-behavior: smooth;
+    }
+
     body::-webkit-scrollbar{
         width: 8px;
     }
@@ -15,6 +19,10 @@
     body {
         background-color: #121212;
         padding: 10px;
+    }
+
+    label kbd{
+        font-size: 0.8em;
     }
 
     input{
@@ -117,9 +125,59 @@
     }
 
     figcaption{
+        color: #dadada;
         font-size: 0.8em;
     }
+
+    kbd{
+        background-color: #383838 !important;
+    }
+
+    code{
+        background-color: #383838 !important;
+        border-radius: 5px;
+        color: #dadada!important;
+    }
+
+    pre {
+        background: #383838 !important;
+        padding: 0.5em ;
+        border: 1px solid #c9D1D9;
+        border-radius: 5px;
+        color: #c9D1D9;
+        font-family: monospace;
+        max-width: 100%;
+        overflow: auto;
+        display: block;
+        word-wrap: break-word;
+        max-height: 60vh;
+    }
+
 /* Seletores de ID ----------------------------------------------*/
+    #activity{
+        border-radius: 5px;
+        background-color: #171717 !important;
+        border: 1px solid #383838;
+    }
+
+    #activity h1{
+        font-size: 1.6em;
+    }
+
+    #about-me img{
+        margin: auto;
+        display: block;
+        border: solid 2px #383838 !important;
+        border-radius: 50px;
+        width: 75px !important;
+        height: 75px !important;
+        margin-bottom: 10px;
+    }
+
+    #about-me ul{
+        list-style: none !important;
+    }
+
     #contact a{
         color: #383838 !important;
     }
@@ -134,22 +192,48 @@
         background-color: #1b1b1c;
     }
 
+    #pesquisa input{
+        border: solid 1px #383838 !important;
+        background-color: #171717 !important;
+    }
+
     #pesquisa article{
         border-radius: 5px;
-        background-color: #1b1b1c;
+        background-color: #171717;
         border: 1px solid #383838;
         margin: 20px 0px 20px 0px;
     }
 
+
     #pesquisa article:last-of-type{
         border-radius: 5px;
-        background-color: #1b1b1c;
+        background-color: #171717;
         border: 1px solid #383838;
         margin: 20px 0px 0px 0px;
     }
 
+
     #pesquisa article:hover{
         border: 2px solid #383838;
+    }
+
+    #summary details {
+        border-radius: 5px;
+        border: 1px solid #383838;
+        background-color: #171717;
+    }
+
+    #summary summary{
+        border-radius: 5px;
+    }
+
+    #summary a{
+        margin: 10px 0px 10px 0px;
+        text-decoration: underline;
+    }
+
+    #summary a:hover{
+        color: #0056B3;
     }
 /* Seletores de classe ----------------------------------------------*/
     .aside{
@@ -190,7 +274,7 @@
     }
 
     .btn-primary:hover{
-        transition: 0.5s linear;
+        transition: 0.2s linear;
         background-color: #FFFFFF !important;
         border: solid 1px #c9D1D9 !important;
         color: #1E1E1F !important;
@@ -205,7 +289,7 @@
     }
 
     .btn-secondary:hover{
-        transition: 0.5s linear;
+        transition: 0.2s linear;
         background-color: #c9D1D9 !important;
         border: solid 1px #c9D1D9 !important;
         color: #1E1E1F !important;
@@ -220,9 +304,24 @@
     }
 
     .btn-danger:hover{
-        transition: 0.5s linear;
+        transition: 0.2s linear;
         background-color: #ff7e7e !important;
         border: solid 1px #ff7e7e !important;
+        color: #1E1E1F !important;
+        border-radius: 5px;
+    }
+
+    .btn-success{
+        background-color: rgba(255, 50, 50, 0) !important;
+        border: solid 1px green !important;
+        color: green !important;
+        border-radius: 5px;
+    }
+
+    .btn-success:hover{
+        transition: 0.2s linear;
+        background-color: green !important;
+        border: solid 1px green !important;
         color: #1E1E1F !important;
         border-radius: 5px;
     }
@@ -279,7 +378,7 @@
 
     .poppins-light-italic {
         font-family: "Poppins", sans-serif;
-        font-weight: 300;
+        font-weight: 200;
         font-style: italic;
     }
 /* Proporção tipografia --------------------------------------------------*/
@@ -297,24 +396,14 @@
             transform: scale(1);
         }
     }
-
-    @keyframes fundoAnimado{
-        0%{
-            background-position: 0% 50%;
-        }
-
-        50%{
-            background-position: 100% 50%;
-        }
-
-        100%{
-            background-position: 0% 50%;
-        }
-    }
 /* Media Queries ----------------------------------------------------------*/
     @media (max-width: 767px) {
         .aside{
             position: static;
             margin-bottom: 10px;
+        }
+
+        #about-me{
+            text-align: center;
         }
     }

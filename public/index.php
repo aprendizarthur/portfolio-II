@@ -1,8 +1,17 @@
 <?php
-    require('../vendor/autoload.php');
+require('../vendor/autoload.php');
 
-    use Core\SessionManager;
-    $SessionManager = new SessionManager;
+use Core\SessionManager;
+use Database\{Database, ActivityDAO};
+use Models\ActivityModel;
+use Controllers\ActivityController;
+
+$SessionManager = new SessionManager;
+$Database = new Database;
+
+$ActivityDAO = new ActivityDAO($Database);
+$ActivityModel = new ActivityModel;
+$ActivityController = new ActivityController;
 
 ?>
 
@@ -33,23 +42,30 @@
 <body>
     <div class="container">
         <div class="row d-flex justify-content-around">
-            <aside class="aside col-11 col-md-4 text-light">
+            <aside class="aside col-11 col-md-4 col-lg-3 text-light">
                 <header class="p-3">
                         <i class="fa-solid fa-address-card fa-lg  mr-1"></i>
                         <h1 class="d-inline ubuntu-regular">Sobre mim</h1>
                 </header>
                 <hr>
                 <section class="p-3" id="about-me">
-                    <h2 class="ubuntu-bold">Arthur Borges Vieira</h2>
+                    <div class="text-center">
+                        <img id="logo" src="assets/images/logo.jpg">
+                        <h2 class="ubuntu-bold">Arthur Vieira</h2>
+                    </div>
                     <p class="poppins-regular">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi justo ante, auctor nec turpis eget, rutrum scelerisque dolor.
                     </p>
                     <p class="poppins-regular">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi justo ante, auctor nec turpis eget, rutrum scelerisque dolor.
+                        Estudando:
                     </p>
+                    <ul class="popping-regular m-0 p-0">
+                        <li>- Arquitetura MVC</li>
+                        <li>- CodeIgniter</li>
+                    </ul>
                 </section>
-                <hr class="d-sm-none d-md-block">
-                <section class="p-3 d-flex justify-content-around d-sm-none d-md-flex" id="contact">
+                <hr>
+                <section class="p-3 d-flex justify-content-around" id="contact">
                         <a href=""><i class="fa-solid fa-envelope fa-lg"></i></a>
                         <a href=""><i class="fa-brands fa-whatsapp fa-xl"></i></a>
                         <a href=""><i class="fa-brands fa-instagram fa-xl"></i></a>
@@ -62,7 +78,7 @@
                 </section>
             </aside>
 
-            <main class="main col-11 col-md-7 text-light">
+            <main class="main col-11 col-md-7 col-lg-8 text-light">
                 <header class="p-3 d-flex justify-content-between">
                     <div>
                         <i class="fa-solid fa-newspaper fa-lg mr-1"></i>
@@ -71,46 +87,25 @@
                 </header>
                 <hr>
                 <section class="p-3" id="pesquisa">
-                    <form method="POST" class="ubuntu-regular">
+                    <form method="GET" class="ubuntu-regular">
                         <div class="form-group">
-                            <input class="form-control w-100" type="search" name="pesquisa" placeholder="Pesquisar">
+                            <label for="search" class="d-none d-md-block"><small><kbd>Alt</kbd> + <kbd>\</kbd></small></label>
+                            <input class="form-control w-100 d-inline-block" type="search" name="search" placeholder="Pesquisa"  accesskey="\">
                         </div>
                     </form>
+                    <?php
+                        try{
+                            $ActivityController->Search($ActivityDAO, $SessionManager);
+                        } catch (Exception $e) {
+                            echo "<p class=\"poppins-regular red\">".$e->getMessage()."</p>";
+                        }
 
-                    <article class="p-3">
-                        <a href="../src/Views/activity.php?id=">
-                            <header>
-                                <small class="mr-2"><i class="fa-solid fa-calendar fa-sm mr-1"></i> 20/10/2025</small>
-                                <small class="mr-2"><i class="fa-solid fa-clock fa-sm mr-1"></i> 3 min</small>
-                                <small class="mr-2"><i class="fa-solid fa-eye fa-sm mr-1"></i> 20</small>
-                                <h1 class="ubuntu-bold">Título do artigo que pode ser bem grande</h1>
-                                <p class="poppins-regular">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi justo ante, auctor nec turpis eget, rutrum scelerisque dolor.
-                                </p>
-                            </header>
-                        </a>
-                    </article>
-                    <hr>
-
-                    <article class="p-3">
-                        <a href="../src/Views/activity.php?id=">
-                            <header>
-                                <small class="mr-2"><i class="fa-solid fa-calendar fa-sm mr-1"></i> 20/10/2025</small>
-                                <small class="mr-2"><i class="fa-solid fa-clock fa-sm mr-1"></i> 3 min</small>
-                                <small class="mr-2"><i class="fa-solid fa-eye fa-sm mr-1"></i> 20</small>
-                                <h1 class="ubuntu-bold">Título do artigo que pode ser bem grande mesmo, até qebraralinhaqueloucura</h1>
-                                <p class="poppins-regular">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi justo ante, auctor nec turpis eget, rutrum scelerisque dolor.
-                                </p>
-                                <figure class="pt-3 m-0">
-                                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
-                                    <figcaption class="poppins-light-italic">
-                                        Imagem tal
-                                    </figcaption>
-                                </figure>
-                            </header>
-                        </a>
-                    </article>
+                        try{
+                            $ActivityController->Read($ActivityDAO, $SessionManager);
+                        } catch (Exception $e) {
+                            echo "<p class=\"poppins-regular red\">".$e->getMessage()."</p>";
+                        }
+                    ?>
                 </section>
             </main>
         </div>

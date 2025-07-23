@@ -3,8 +3,8 @@ require('../../../vendor/autoload.php');
 
 use Core\SessionManager;
 use Database\{Database, ActivityDAO};
-use Controllers\ActivityController;
 use Models\ActivityModel;
+use Controllers\ActivityController;
 
 $SessionManager = new SessionManager;
 $SessionManager->redirectNotLoggedIn();
@@ -13,6 +13,7 @@ $Database = new Database;
 $ActivityDAO = new ActivityDAO($Database);
 $ActivityModel = new ActivityModel;
 $ActivityController = new ActivityController;
+
 ?>
 
 <!DOCTYPE html>
@@ -45,19 +46,15 @@ $ActivityController = new ActivityController;
         <aside class="aside col-11 col-md-4 col-lg-3 text-light">
             <header class="p-3">
                 <i class="fa-solid fa-screwdriver-wrench fa-lg mr-1"></i>
-                <h1 class="d-inline ubuntu-regular">Painel Administrador</h1>
+                <h1 class="d-inline ubuntu-regular">Excluir Atividade</h1>
             </header>
-            <hr>
-            <section class="p-3" id="panel-info">
-                <p class="poppins-regular">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi justo ante, auctor nec turpis eget, rutrum scelerisque dolor.
-                </p>
-            </section>
             <hr>
             <section class="p-3" id="panel-nav">
                 <nav>
-                    <a class="d-inline-block btn btn-primary poppins-bold w-100" href="updateUser.php">Meus dados</a>
-                    <a class="d-inline-block btn btn-danger mt-2 poppins-regular w-100" href="logout.php">Logout</a>
+                    <a class="d-inline-block btn btn-primary poppins-bold w-100" href="panel.php">Cancelar</a>
+                    <form method="POST" class="form">
+                        <button type="submit" name="submit" class="btn btn-danger d-inline-block mt-2 poppins-bold w-100">Confirmar</button>
+                    </form>
                 </nav>
             </section>
         </aside>
@@ -65,31 +62,18 @@ $ActivityController = new ActivityController;
         <main class="main col-11 col-md-7 col-lg-8 text-light">
             <header class="p-3 d-flex justify-content-between">
                 <div>
-                    <i class="fa-solid fa-newspaper fa-lg mr-1"></i>
-                    <h1 class="d-inline ubuntu-regular">Atividade</h1>
+                    <i class="fa-solid fa-id-card fa-lg mr-1"></i>
+                    <h1 class="d-inline ubuntu-regular">Confirmar exclusão</h1>
                 </div>
             </header>
             <hr>
-            <section class="p-3" id="pesquisa">
-                <form method="GET" class="ubuntu-regular">
-                    <div class="form-group">
-                        <input class="form-control w-100" type="search" name="search" placeholder="Pesquisa"  accesskey="\">
-                    </div>
-                </form>
-
-                <a class="d-inline-block mb-3 btn btn-primary poppins-bold w-100" href="createActivity.php">Nova Atividade</a>
+            <section class="p-3" id="update-user">
                 <?php
-                    try{
-                        $ActivityController->Search($ActivityDAO, $SessionManager);
-                    } catch (Exception $e) {
-                        echo "<p class=\"poppins-regular red\">".$e->getMessage()."</p>";
-                    }
-
-                    try{
-                        $ActivityController->Read($ActivityDAO, $SessionManager);
-                    } catch (Exception $e) {
-                        echo "<p class=\"poppins-regular red\">".$e->getMessage()."</p>";
-                    }
+                try{
+                    $ActivityController->Delete($ActivityDAO, $SessionManager);
+                } catch (Exception $e){
+                    echo "<p class=\"mb-3 poppins-regular red\"><i class=\"pulse red fa-solid fa-circle fa-xs mr-2\"></i>".$e->getMessage()."</p>";
+                }
                 ?>
             </section>
         </main>

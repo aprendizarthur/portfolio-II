@@ -8,7 +8,7 @@ use Controllers\UserController;
 
 $SessionManager = new SessionManager;
 $SessionManager->redirectNotLoggedIn();
-$Database = new Database('portfolio-II', 'root', '');
+$Database = new Database;
 
 $UserDAO = new UserDAO($Database);
 $UserModel = new UserModel;
@@ -43,29 +43,32 @@ $UserController = new UserController;
 <body>
 <div class="container">
     <div class="row d-flex justify-content-around">
-        <aside class="aside col-11 col-md-4 text-light">
+        <aside class="aside col-11 col-md-4 col-lg-3 text-light">
             <header class="p-3">
                 <i class="fa-solid fa-screwdriver-wrench fa-lg mr-1"></i>
                 <h1 class="d-inline ubuntu-regular">Editar Dados</h1>
             </header>
             <hr>
             <section class="p-3" id="panel-nav">
-
                     <?php
+                        if(isset($_SESSION['update-success'])){
+                            echo "<p class=\"mb-3 poppins-regular green\"><i class=\"pulse green fa-solid fa-circle fa-xs mr-2\"></i>Dados atualizados</p>";
+                            unset($_SESSION['update-success']);
+                        }
+
                         try{
                             $UserController->Update($UserModel, $UserDAO, $UserModel->getDataUpdateFromPost());
                         } catch (Exception $e){
                             echo "<p class=\"mb-3 poppins-regular red\"><i class=\"pulse red fa-solid fa-circle fa-xs mr-2\"></i>".$e->getMessage()."</p>";
                         }
                     ?>
-
                 <nav>
                     <a class="d-inline-block btn btn-danger poppins-regular w-100" href="panel.php">Cancelar</a>
                 </nav>
             </section>
         </aside>
 
-        <main class="main col-11 col-md-7 text-light">
+        <main class="main col-11 col-md-7 col-lg-8 text-light">
             <header class="p-3 d-flex justify-content-between">
                 <div>
                     <i class="fa-solid fa-id-card fa-lg mr-1"></i>
