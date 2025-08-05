@@ -142,7 +142,6 @@ class UserController
             <a href=\"https://twitter.com/".$UserData['userX']."\"><i class=\"fa-brands fa-x-twitter fa-lg\"></i></a>
             <a href=\"https://github.com/".$UserData['userGithub']."\"><i class=\"fa-brands fa-github fa-xl\"></i></a>
         </section>
-           <hr>
         ";
 
     }

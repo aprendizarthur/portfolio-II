@@ -29,9 +29,9 @@ $ActivityViewController = new ActivityViewController;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Título, Ícone, Descrição e Cor de tema p/ navegador -->
-    <title>Portfolio</title>
-    <link rel="icon" type="image/x-icon" href="">
-    <meta name="description" content="">
+    <title> Arthur Vieira - Desenvolvedor Web</title>
+    <link rel="icon" type="image/x-icon" href="public/assets/images/favicon.ico">
+    <meta name="description" content="Artigos sobre programação, tutoriais de desenvolvimento web e projetos de software. Acompanhe a minha jornada.">
     <meta name="theme-color" content="#F1F1F1">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">

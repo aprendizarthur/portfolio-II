@@ -28,7 +28,7 @@ $ActivityViewController->Create($ActivityViewModel, $ActivityViewDAO);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Título, Ícone, Descrição e Cor de tema p/ navegador -->
     <title>Arthur Vieira - <?php if(isset($_SESSION['meta-title'])){echo $_SESSION['meta-title'];}?></title>
-    <link rel="icon" type="image/x-icon" href="../../../public/assets/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../../public/assets/images/favicon.ico">
     <meta name="description" content="<?php if(isset($_SESSION['meta-description'])){echo $_SESSION['meta-description'];}?>">
     <meta name="theme-color" content="green">
     <!-- Bootstrap CSS -->

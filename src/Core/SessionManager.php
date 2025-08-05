@@ -47,7 +47,7 @@ class SessionManager
             "<a class=\"d-inline-block btn btn-primary poppins-bold w-100\" href=\"Panel/panel.php\"><i class=\"fa-solid fa-arrow-left mr-2\"></i>Voltar</a>
              <a class=\"d-inline-block btn mt-2 btn-success poppins-bold w-100\" href=\"Panel/updateActivity.php?id=$activityId\">Editar</a>"
             :
-            "<a class=\"d-inline-block btn btn-primary poppins-bold w-100\" href=\"../../index.php\"><i class=\"fa-solid fa-lg fa-house\"></i></a>";
+            "<a class=\"d-inline-block btn btn-primary poppins-bold w-100\" href=\"../../index.php\"><i class=\"fa-solid fa-lg fa-house mr-2\"></i> Voltar</a>";
 
         return $navegation;
     }

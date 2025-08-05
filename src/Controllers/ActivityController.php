@@ -119,9 +119,9 @@ class ActivityController
                     <section id=\"activity\">
                         <article>
                             <header class=\"p-3\">
-                                <small class=\"mr-2\"><i class=\"fa-solid fa-calendar fa-sm mr-1\"></i>$activityData[date]</small>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-clock fa-sm mr-1\"></i>$activityData[readingTime] min</small>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-eye fa-sm mr-1\"></i>$activityData[views]</small>
+                                <small class=\"mr-2\"><i class=\"fa-solid fa-calendar fa-sm mr-1\"></i>$activityData[date]</small>
                                 <h1 class=\"ubuntu-bold\">$activityData[title]</h1>
                                 <p class=\"poppins-regular\">
                                     $activityData[description]
