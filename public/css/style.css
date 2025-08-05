@@ -267,7 +267,7 @@
     }
 
     .btn-primary{
-        background-color: #C9D1D9 !important;
+        background-color: #FFFFFF !important;
         border: solid 1px #c9D1D9 !important;
         color: #1E1E1F !important;
         border-radius: 5px;
@@ -279,6 +279,7 @@
         border: solid 1px #c9D1D9 !important;
         color: #1E1E1F !important;
         border-radius: 5px;
+        font-weight: bold;
     }
 
     .btn-secondary{
@@ -401,9 +402,5 @@
         .aside{
             position: static;
             margin-bottom: 10px;
-        }
-
-        #about-me{
-            text-align: center;
         }
     }

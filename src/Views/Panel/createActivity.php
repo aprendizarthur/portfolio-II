@@ -4,7 +4,7 @@ require('../../../vendor/autoload.php');
 use Core\SessionManager;
 use Database\{Database, ActivityDAO};
 use Models\ActivityModel;
-use Controllers\ActivityController;
+use Controllers\{ActivityController, SitemapController};
 
 $SessionManager = new SessionManager;
 $SessionManager->redirectNotLoggedIn();
@@ -13,6 +13,8 @@ $Database = new Database;
 $ActivityDAO = new ActivityDAO($Database);
 $ActivityModel = new ActivityModel;
 $ActivityController = new ActivityController;
+
+$SitemapController = new SitemapController;
 
 ?>
 
@@ -23,10 +25,10 @@ $ActivityController = new ActivityController;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Título, Ícone, Descrição e Cor de tema p/ navegador -->
-    <title>Portfolio</title>
-    <link rel="icon" type="image/x-icon" href="">
+    <title>Criar Atividade</title>
+    <link rel="icon" type="image/x-icon" href="../../../public/assets/images/favicon.ico">
     <meta name="description" content="">
-    <meta name="theme-color" content="#FFFFFF">
+    <meta name="theme-color" content="green">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- Fontawesome JS -->
@@ -52,7 +54,7 @@ $ActivityController = new ActivityController;
             <section class="p-3" id="panel-nav">
                 <?php
                     try{
-                        $ActivityController->Create($ActivityModel, $ActivityDAO, $SessionManager, $ActivityModel->getDataCreateFromPost());
+                        $ActivityController->Create($ActivityModel, $ActivityDAO, $SessionManager, $ActivityModel->getDataCreateFromPost(), $SitemapController);
                     } catch (Exception $e){
                         echo "<p class=\"mb-3 poppins-regular red\"><i class=\"pulse red fa-solid fa-circle fa-xs mr-2\"></i>".$e->getMessage()."</p>";
                     }

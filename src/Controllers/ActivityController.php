@@ -6,6 +6,7 @@ use Core\SessionManager;
 use Database\ActivityDAO;
 use Database\ActivityViewDAO;
 use Models\ActivityModel;
+use Controllers\SitemapController;
 
 class ActivityController
 {
@@ -14,11 +15,13 @@ class ActivityController
     private ActivityViewController $activityViewController;
     private ActivityViewDAO $activityViewDAO;
     private SessionManager $sessionManager;
+    private SitemapController $sitemapController;
 
-    public function Create(ActivityModel $activityModel, ActivityDAO $activityDAO, SessionManager $sessionManager, array $DataCreateFromPost) : void{
+    public function Create(ActivityModel $activityModel, ActivityDAO $activityDAO, SessionManager $sessionManager, array $DataCreateFromPost, SitemapController $sitemapController) : void{
         $this->activityModel = $activityModel;
         $this->activityDAO = $activityDAO;
         $this->sessionManager = $sessionManager;
+        $this->sitemapController = $sitemapController;
 
         $this->sessionManager->saveInputModelsOnSessionForCreateActivity();
 
@@ -45,7 +48,10 @@ class ActivityController
 
             $DataCreateFromPost["reading-time"] = $this->activityModel->calculateReadingTime($DataCreateFromPost["content"]);
 
-            if(!$this->activityDAO->Create($DataCreateFromPost)){
+            if($this->activityDAO->Create($DataCreateFromPost)){
+                $activityID = $this->activityDAO->getLastActivityID();
+                $this->sitemapController->CreateActivityXml($activityID);
+            } else {
                 $this->sessionManager->saveDataOnSession($DataCreateFromPost, 'create-');
                 throw new \Exception("Erro ao cadastrar, tente novamente");
             }
@@ -83,7 +89,7 @@ class ActivityController
             $activityData["views"] = $this->activityViewController->getActivityViews($activityData['id'], $activityViewDAO);
 
             echo "
-                <aside class=\"aside col-11 col-md-4 col-lg-3 text-light\">
+                <aside id='nav' class=\"aside col-12 col-md-4 col-lg-3 text-light\">
                     <header class=\"p-3\">
                         <i class=\"fa-solid fa-newspaper fa-lg mr-1\"></i>
                         <h1 class=\"d-inline ubuntu-regular\">Atividade</h1>
@@ -95,20 +101,21 @@ class ActivityController
                         </nav>
                     </section>
                     <hr>
-                    <section class=\"p-3\" id=\"summary\">
+                    <section class=\"p-3 text-center\" id=\"summary\">
                         <details class=\"p-2\">
                             <summary class=\"text-center pt-1\">
                                 <h3 class=\"d-inline ubuntu-regular\">Sumário<h2>
                             </summary>
                             
-                            <div class='p-2'>
+                            <div class='p-2 text-left'>
                                 $activitySummaryFormated
                             </div>
                         </details>
+                            <small class=\"poppins-regular d-block mt-3\">Clique para expandir</small>
                     </section>
                 </aside>
-            
-                <main class=\"main col-11 col-md-7 col-lg-8 p-3 text-light\">      
+ 
+                <main class=\"main col-12 col-md-7 col-lg-8 p-3 text-light\">      
                     <section id=\"activity\">
                         <article>
                             <header class=\"p-3\">
@@ -125,8 +132,11 @@ class ActivityController
                             $activityData[content]
                         </article>
                     </section>
-                    <section id=\"pesquisa\" class='mt-3' style=\"background-color: #1E1E1F; border-radius: 5px; border: solid 1px #383838\">
-                        <header class=\"p-3\" style='background-color: #1E1E1F;'>
+                    
+                    <a class=\"mt-3 d-block d-md-none btn btn-primary poppins-bold w-100\" href=\"#nav\"><i class=\"fa-solid fa-arrow-up mr-2\"></i>Voltar para o topo</a>
+                    
+                    <section id=\"pesquisa\" class='mt-3 recomendacao' style=\"background-color: #1E1E1F; border-radius: 5px; border: solid 1px #383838\">
+                        <header class=\"p-3\" style='background-color: #171717'>
                         <i class=\"fa-solid fa-wand-magic-sparkles mr-1 \"></i>
                         <h1 class=\"d-inline ubuntu-regular\">Recomendado</h1>
                         </header>
@@ -135,7 +145,13 @@ class ActivityController
                     ";
 
                     $this->Recommendation($activityViewController, $activityViewDAO, $activityDAO, $activityModel);
-            echo "</div></section></main>";
+                    $thisYear = date("Y");
+            echo "</div>
+                    </section> 
+                    <footer class=\"text-center mt-3\">
+                        <small class=\"poppins-regular\">© 2025 - $thisYear Arthur Vieira. Todos os direitos reservados.</small>
+                    </footer>
+                    </main>";
 
         } else {
             header("Location: ../../public/index.php");
@@ -159,7 +175,10 @@ class ActivityController
                 throw new \Exception("Nenhuma atividade encontrada");
             }
 
+            $activityIndex = 0;
+
             foreach($activitiesData as $activityData){
+                $activityIndex++;
                 $activityRelativeLink = $this->sessionManager->createRelativeLinkForActivity($activityData['id']);
                 $activityCover = empty($activityData['cover']) ? "" : "<figure class=\"pt-3 m-0\"><img src=\"$activityData[cover]\"></figure>";
                 $activityData["views"] = $this->activityViewController->getActivityViews($activityData['id'], $this->activityViewDAO);
@@ -168,17 +187,19 @@ class ActivityController
                     <article class=\"p-3\">
                         <a href=\"$activityRelativeLink\">
                             <header>
-                                <small class=\"mr-2\"><i class=\"fa-solid fa-calendar fa-sm mr-1\"></i>$activityData[date]</small>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-clock fa-sm mr-1\"></i>$activityData[readingTime] min</small>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-eye fa-sm mr-1\"></i>$activityData[views]</small>
+                                <small class=\"mr-2\"><i class=\"fa-solid fa-calendar fa-sm mr-1\"></i>$activityData[date]</small>
                                 <h1 class=\"ubuntu-bold\">$activityData[title]</h1>
                                 <p class=\"poppins-regular\">$activityData[description]</p>
                             </header>
                             $activityCover
                         </a>
-                    </article>
-                    <hr> 
+                    </article> 
                 ";
+                if($activityIndex != count($activitiesData)){
+                    echo "<hr>";
+                }
             }
         }
     }
@@ -338,10 +359,11 @@ class ActivityController
             }
 
             $totalResults = count($searchResult);
-
-            echo "<p class=\"poppins-regular\" style=\"color: #383838 !important;\">Foram encontrados ($totalResults) resultado(s)</p>";
+            $actualActivity = 0;
+            echo "<p class=\"poppins-regular\" style=\"color: green !important;\">$totalResults resultado(s) para '$search'</p>";
 
             foreach($searchResult as $activityData){
+                $actualActivity++;
                 $activityRelativeLink = $this->sessionManager->createRelativeLinkForActivity($activityData['id']);
                 $activityCover = empty($activityData['cover']) ? "" : "<figure class=\"pt-3 m-0\"><img src=\"$activityData[cover]\"></figure>";
                 $activityData['views'] = $this->activityViewController->getActivityViews($activityData['id'], $activityViewDAO);
@@ -350,17 +372,19 @@ class ActivityController
                     <article class=\"p-3\">
                         <a href=\"$activityRelativeLink\">
                             <header>
-                                <small class=\"mr-2\"><i class=\"fa-solid fa-calendar fa-sm mr-1\"></i>$activityData[date]</small>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-clock fa-sm mr-1\"></i>$activityData[readingTime] min</small>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-eye fa-sm mr-1\"></i>$activityData[views]</small>
+                                <small class=\"mr-2\"><i class=\"fa-solid fa-calendar fa-sm mr-1\"></i>$activityData[date]</small>
                                 <h1 class=\"ubuntu-bold\">$activityData[title]</h1>
                                 <p class=\"poppins-regular\">$activityData[description]</p>
                             </header>
                             $activityCover
                         </a>
-                    </article>
-                    <hr> 
+                    </article> 
                 ";
+                if($actualActivity != $totalResults){
+                    echo "<hr>";
+                }
             }
         }
     }
@@ -381,7 +405,10 @@ class ActivityController
 
         $randomIds = $this->activityModel->returnDifferentRandomIds($allActivitiesIds, (int)$_GET['id']);
 
+        $activityIndex = 0;
+
         foreach($randomIds as $activityID){
+            $activityIndex++;
             if(!$activityData = $this->activityDAO->getActivityDataById($activityID)){
                 throw new \Exception("Erro ao carregar recomendação.");
             }
@@ -392,17 +419,20 @@ class ActivityController
                     <article class=\"p-3\">
                         <a href=\"activity.php?id=$activityData[id]\">
                             <header>
-                                <small class=\"mr-2\"><i class=\"fa-solid fa-calendar fa-sm mr-1\"></i>$activityData[date]</small>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-clock fa-sm mr-1\"></i>$activityData[readingTime] min</small>
                                 <small class=\"mr-2\"><i class=\"fa-solid fa-eye fa-sm mr-1\"></i> $activityData[views]</small>
+                                <small class=\"mr-2\"><i class=\"fa-solid fa-calendar fa-sm mr-1\"></i>$activityData[date]</small>
                                 <h1 class=\"ubuntu-bold\">$activityData[title]</h1>
                                 <p class=\"poppins-regular\">$activityData[description]</p>
                             </header>
                             $activityCover
                         </a>
                     </article>
-                    <hr> 
             ";
+
+            if($activityIndex != count($randomIds)){
+                echo "<hr>";
+            }
         }
     }
 }

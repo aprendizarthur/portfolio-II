@@ -23,10 +23,10 @@ $UserController = new UserController;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Título, Ícone, Descrição e Cor de tema p/ navegador -->
-    <title>Portfolio</title>
-    <link rel="icon" type="image/x-icon" href="">
+    <title>Atualizar dados</title>
+    <link rel="icon" type="image/x-icon" href="../../../public/assets/images/favicon.ico">
     <meta name="description" content="">
-    <meta name="theme-color" content="#FFFFFF">
+    <meta name="theme-color" content="green">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- Fontawesome JS -->

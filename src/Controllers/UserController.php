@@ -122,15 +122,19 @@ class UserController
         }
 
         echo "
-        <section class=\"p-3\" id=\"about-me\">
-            <div class=\"text-center\">
-                <img id=\"logo\" src=\"assets/images/logo.jpg\">
-                <h2 class=\"ubuntu-bold\">Arthur Vieira</h2>
+        <section class=\"p-3 text-center\" id=\"about-me\">
+            <div>
+                <img id=\"logo\" src=\"public/assets/images/logo.jpg\">
+                <h2 class=\"ubuntu-bold mb-0\">Arthur Vieira</h2>
+                <small class=\"ubuntu-regular m-0 green\"><i class=\"pulse fa-solid fa-circle fa-xs mr-2\"></i>Disponível para trabalho</small>
             </div>
-            <p class=\"poppins-regular\">$UserData[about]</p>
-            <p class=\"poppins-regular\">$UserData[studying]</p>
+            <p class=\"poppins-regular mt-1\">$UserData[about]</p>
         </section>
            <hr>
+           <section class=\"p-3 text-center\" id=\"status\">
+                    <a class=\"d-inline-block btn btn-primary poppins-bold w-100\" href=\"public/assets/files/curriculo.pdf\" download><i class=\"fa-solid fa-download mr-2\"></i>Currículo</a>
+           </section>
+            <hr>
         <section class=\"p-3 d-flex justify-content-around\" id=\"contact\">
             <a href=\"mailto:".$UserData['email']."\"><i class=\"fa-solid fa-envelope fa-lg\"></i></a>
             <a href=\"https://wa.me/".$UserData['numberWhatsapp']."\"><i class=\"fa-brands fa-whatsapp fa-xl\"></i></a>

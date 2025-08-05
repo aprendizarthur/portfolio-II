@@ -11,7 +11,7 @@ class SessionManager
     public function logout() : void {
         session_unset();
         session_destroy();
-        header('Location: ../../../public/index.php');
+        header('Location: ../../../index.php');
         exit();
     }
 
@@ -36,7 +36,7 @@ class SessionManager
 
     public function createRelativeLinkForActivity(int $id) : string{
         if(empty($_SESSION['user-username'])){
-            return "../src/Views/activity.php?id=$id";
+            return "src/Views/activity.php?id=$id";
         } else {
             return "../activity.php?id=$id";
         }
@@ -44,10 +44,10 @@ class SessionManager
 
     public function createRelativeLinkForActivityNavegation(int $activityId) : string{
         $navegation = isset($_SESSION['user-username']) ?
-            "<a class=\"d-inline-block btn btn-primary poppins-bold w-100\" href=\"panel/panel.php\">Voltar</a>
-             <a class=\"d-inline-block btn mt-2 btn-success poppins-bold w-100\" href=\"panel/updateActivity.php?id=$activityId\">Editar</a>"
+            "<a class=\"d-inline-block btn btn-primary poppins-bold w-100\" href=\"Panel/panel.php\"><i class=\"fa-solid fa-arrow-left mr-2\"></i>Voltar</a>
+             <a class=\"d-inline-block btn mt-2 btn-success poppins-bold w-100\" href=\"Panel/updateActivity.php?id=$activityId\">Editar</a>"
             :
-            "<a class=\"d-inline-block btn btn-primary poppins-bold w-100\" href=\"../../public/index.php\">Voltar</a>";
+            "<a class=\"d-inline-block btn btn-primary poppins-bold w-100\" href=\"../../index.php\"><i class=\"fa-solid fa-lg fa-house\"></i></a>";
 
         return $navegation;
     }

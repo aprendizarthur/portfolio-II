@@ -27,10 +27,10 @@ $ActivityViewController->Create($ActivityViewModel, $ActivityViewDAO);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Título, Ícone, Descrição e Cor de tema p/ navegador -->
-    <title><?php if(isset($_SESSION['meta-title'])){echo $_SESSION['meta-title'];}?></title>
-    <link rel="icon" type="image/x-icon" href="">
+    <title>Arthur Vieira - <?php if(isset($_SESSION['meta-title'])){echo $_SESSION['meta-title'];}?></title>
+    <link rel="icon" type="image/x-icon" href="../../../public/assets/images/favicon.ico">
     <meta name="description" content="<?php if(isset($_SESSION['meta-description'])){echo $_SESSION['meta-description'];}?>">
-    <meta name="theme-color" content="#FFFFFF">
+    <meta name="theme-color" content="green">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- Fontawesome JS -->

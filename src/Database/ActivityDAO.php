@@ -127,6 +127,18 @@ class ActivityDAO
         }
     }
 
+    public function getLastActivityID() : int {
+        try{
+            $pdo = $this->db->getPDO();
+            $statement = $pdo->prepare("SELECT id FROM activities ORDER BY id DESC LIMIT 1");
+            $statement->execute();
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            return $result['id'] ?? 0;
+        } catch (PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
     public function existsActivityId(int $id) : bool {
         try{
             $pdo = $this->db->getPDO();
